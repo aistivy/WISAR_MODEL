@@ -103,7 +103,7 @@ public class Simulator {
 			ITransition t = e.getEnabledTransition();
 			if ( _clock.getActorTransition((IActor) e) == null ) {
 				if ( t != null && !e.isFinished() ) {
-					_clock.addTransition((IActor) e, t, random(t.getDurationRange().min(),t.getDurationRange().max()));
+					_clock.addTransition((IActor) e, t, getDuration(t.getDurationRange()));
 					e.decrementCount();
 				}
 			} else {
@@ -162,44 +162,23 @@ public class Simulator {
 	
 	public int getDuration(Range range)
 	{
+		int max = range.max();
+		int min = range.min();
+		int mean = range.mean();
 		switch(_duration) {
 			case MIN:
-				return range.min();
+				return min;
 			case MAX:
-				return range.max();
+				return max;
 			case MEAN:
-				return range.mean();
+				return mean;
 			case MIN_MAX:
-				if ( random(1) == 0 )
-					return range.min();
-				else
-					return range.max();
+				return Verify.getInt(min, max);
 			case MIN_MAX_MEAN:
-				int val = random(2);
-				if ( val == 0 )
-					return range.min();
-				else if (val == 2)
-					return range.max();
-				else 
-					return range.mean();
+				return Verify.getInt(min, max);
 			default:
 				return 1;
 		}
-	}
-	
-	public int random(Range range)
-	{
-		return random(range.min(), range.max());
-	}
-	
-	public int random(int val)
-	{
-		return random(0, val);
-	}
-	
-	public int random(int min, int max)
-	{
-		return Verify.getInt(min, max);
 	}
 	
 	public Integer getClockTime() {

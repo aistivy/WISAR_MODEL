@@ -48,8 +48,10 @@ public class WorkloadListener extends ListenerAdapter {
 	
 	private void makeChoice( MethodInfo mi ) {
 		String methodName = mi.getName( );
-		if( methodName.equals( "duration" ) )
+		if( methodName.equals( "getInt" ) ) {
+//			System.out.println("making choice");
 			advancePath( );
+		}
 	}
 	
 	private void advancePath( ) {
@@ -82,18 +84,30 @@ public class WorkloadListener extends ListenerAdapter {
 	}
 
 	private void printCurrentPath() {
-		if( HighestCumulativeDescisionWorkloadPath == null || _currentPath.getCumulativeDecisionWorkload( ) > HighestCumulativeDescisionWorkloadPath.getCumulativeDecisionWorkload( ) )
-			CSVPrinter.getInstance( ).print( "HCDW.csv", WorkloadBuilder.build(_currentPath) );
-		if( HighestCumulativeResourceWorkloadPath == null || _currentPath.getCumulativeResourceWorkload( ) > HighestCumulativeResourceWorkloadPath.getCumulativeResourceWorkload( ) )
-			CSVPrinter.getInstance( ).print( "HCRW.csv", WorkloadBuilder.build(_currentPath) );
-		if( HighestCumulativeTemporalWorkloadPath == null || _currentPath.getCumulativeTemporalWorkload( ) > HighestCumulativeTemporalWorkloadPath.getCumulativeTemporalWorkload( ) )
-			CSVPrinter.getInstance( ).print( "HCTW.csv", WorkloadBuilder.build(_currentPath) );
-		if( LowestCumulativeDescisionWorkloadPath == null || _currentPath.getCumulativeDecisionWorkload( ) < LowestCumulativeDescisionWorkloadPath.getCumulativeDecisionWorkload( ) )
-			CSVPrinter.getInstance( ).print( "LCDW.csv", WorkloadBuilder.build(_currentPath) );
-		if( LowestCumulativeResourceWorkloadPath == null || _currentPath.getCumulativeResourceWorkload( ) < LowestCumulativeResourceWorkloadPath.getCumulativeResourceWorkload( ) )
-			CSVPrinter.getInstance( ).print( "LCRW.csv", WorkloadBuilder.build(_currentPath) );
-		if( LowestCumulativeTemporalWorkloadPath == null || _currentPath.getCumulativeTemporalWorkload( ) < LowestCumulativeTemporalWorkloadPath.getCumulativeTemporalWorkload( ) )
-			CSVPrinter.getInstance( ).print( "LCTW.csv", WorkloadBuilder.build(_currentPath) );
+		if( HighestCumulativeDescisionWorkloadPath == null || _currentPath.getCumulativeDecisionWorkload( ) > HighestCumulativeDescisionWorkloadPath.getCumulativeDecisionWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "HCDW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeDecisionWorkload() );
+			HighestCumulativeDescisionWorkloadPath = _currentPath;
+		}
+		if( HighestCumulativeResourceWorkloadPath == null || _currentPath.getCumulativeResourceWorkload( ) > HighestCumulativeResourceWorkloadPath.getCumulativeResourceWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "HCRW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeResourceWorkload() );
+			HighestCumulativeResourceWorkloadPath = _currentPath;
+		}
+		if( HighestCumulativeTemporalWorkloadPath == null || _currentPath.getCumulativeTemporalWorkload( ) > HighestCumulativeTemporalWorkloadPath.getCumulativeTemporalWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "HCTW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeTemporalWorkload() );
+			HighestCumulativeTemporalWorkloadPath = _currentPath;
+		}
+		if( LowestCumulativeDescisionWorkloadPath == null || _currentPath.getCumulativeDecisionWorkload( ) < LowestCumulativeDescisionWorkloadPath.getCumulativeDecisionWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "LCDW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeDecisionWorkload() );
+			LowestCumulativeDescisionWorkloadPath = _currentPath;
+		}
+		if( LowestCumulativeResourceWorkloadPath == null || _currentPath.getCumulativeResourceWorkload( ) < LowestCumulativeResourceWorkloadPath.getCumulativeResourceWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "LCRW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeResourceWorkload() );
+			LowestCumulativeResourceWorkloadPath = _currentPath;
+		}
+		if( LowestCumulativeTemporalWorkloadPath == null || _currentPath.getCumulativeTemporalWorkload( ) < LowestCumulativeTemporalWorkloadPath.getCumulativeTemporalWorkload( ) ) {
+			CSVPrinter.getInstance( ).print( "LCTW.csv", WorkloadBuilder.build(_currentPath), _currentPath.getCumulativeTemporalWorkload() );
+			LowestCumulativeTemporalWorkloadPath = _currentPath;
+		}
 	}
 
 	private void storeTransitionDuration(ThreadInfo ti,

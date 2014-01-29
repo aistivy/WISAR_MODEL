@@ -5,19 +5,19 @@ import simulator.Range;
 public enum Duration {
 	/* Via Dr. Goodrich */
 																				//1 - Critical to safety, 2 - critical to mission success, 3 - discretionary
-	NEW_SEARCH_AOI(120,600),													//3
-	NEW_TARGET_DESCRIPTION(120,600),											//3
-	START_SEARCH(5,10),															//3
-	TERMINATE_SEARCH(5,10),	//HAVE TO PLAN ROUTE HOME: 120-600					//2
-	TARGET_SIGHTED_T(60,300),													//2
-	TARGET_SIGHTED_F(60,300),													//3
-	VIDEO_SIGNAL_LOST(60,300),													//2
-	LOW_BATTERY(5,10),	//HAVE TO PLAN ROUTE HOME: 120-600						//1
-	BATTERY_DIED(999999999),													//1
-	LOW_HAG(10,300),															//1
-	CRASHED_HAG(999999999),														//1
-	SIGNAL_LOST(10,600),														//2
-	SIGNAL_RESTORED(5,10),	//PLAN A NEW PATH TO MAINTAIN SIGNAL: 120-600		//2
+//	NEW_SEARCH_AOI(120,600),													//3
+//	NEW_TARGET_DESCRIPTION(120,600),											//3
+//	START_SEARCH(5,10),															//3
+//	TERMINATE_SEARCH(5,10),	//HAVE TO PLAN ROUTE HOME: 120-600					//2
+//	TARGET_SIGHTED_T(60,300),													//2
+//	TARGET_SIGHTED_F(60,300),													//3
+//	VIDEO_SIGNAL_LOST(60,300),													//2
+//	LOW_BATTERY(5,10),	//HAVE TO PLAN ROUTE HOME: 120-600						//1
+//	BATTERY_DIED(999999999),													//1
+//	LOW_HAG(10,300),															//1
+//	CRASHED_HAG(999999999),														//1
+//	SIGNAL_LOST(10,600),														//2
+//	SIGNAL_RESTORED(5,10),	//PLAN A NEW PATH TO MAINTAIN SIGNAL: 120-600		//2
 	
 	
 	/* Parent Search Durations */
@@ -58,8 +58,8 @@ public enum Duration {
 	/* UAV Durations */
 	
 	UAV_ADJUST_PATH(60),
-	UAV_LANDING(5,10),
-	UAV_TAKE_OFF(5,10),
+	UAV_LANDING(10),
+	UAV_TAKE_OFF(10),
 	
 	/* UAV Battery Durations */
 
@@ -73,11 +73,12 @@ public enum Duration {
 	NEXT(1),
 	POKE(10),
 	OP_OBSERVE_GUI(10),
-	OP_OBSERVE_UAV(10),
+	OP_OBSERVE_UAV(5,10),
 	OP_POST_FLIGHT_COMPLETE(10),
 	RANDOM(50),
 	PS_TX_MM(10),
-	PS_RX_MM(10), UAV_PATH_DUR(70,100);
+	PS_RX_MM(10),
+	UAV_PATH_DUR(100);
 	
 	private Integer _minimum;
 	private Integer _maximum;
