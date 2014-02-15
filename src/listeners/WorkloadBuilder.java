@@ -54,28 +54,41 @@ public class WorkloadBuilder {
 				currentDecisionData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
 			} else if ( metricKey.getType() == MetricKey.Type.ACTIVE_OUTPUT ) {
 				String taskData = metric.getData().toString();
-				String taskDataStart = "";
-				String taskDataStop = "";
-				if ( taskData.contains("__") ) {
-					int divisionIndex = taskData.indexOf("__");
-					taskDataStart = taskData.substring(0, divisionIndex) + "]";
-					taskDataStop = taskData.substring(divisionIndex).replace("__", "[");
-					System.out.println(taskDataStart);
-					System.out.println(taskDataStop);
-				} else {
-					taskDataStart = taskData;
-					taskDataStop = taskData;
+				String lastData = "";
+				
+				boolean hasMultiple = false;
+				while ( taskData.contains("__") ) {
+					hasMultiple = true;
+					int divisionIndex = taskData.indexOf( "__" );
+					lastData = taskData.substring( 0, divisionIndex + 2 ).replace( "__", "]" );
+					taskData = "[" + taskData.substring( divisionIndex + 2 );
+					taskStarts = addStart( taskStarts, lastData );
+					taskStops = addStops( taskStops, lastData );
 				}
-				if ( taskDataStart != "" && taskDataStart.contains("_START_") ) {
-					taskStarts += "(" + taskDataStart + ")";
-				}
-				if ( taskDataStop != "" && taskDataStop.contains("_STOP_") ) {
-					taskStops += "(" + taskDataStop + ")";
+				
+				if( !hasMultiple ) {
+					lastData = taskData;
+					taskStarts = addStart( taskStarts, lastData );
+					taskStops = addStops( taskStops, lastData );
 				}
 			} 
 		}
 		
 		return result;
+	}
+
+	private static String addStops( String taskStops, String lastData ) {
+		if ( lastData != "" && lastData.contains("_STOP_") ) {
+			taskStops += "(" + lastData + ")";
+		}
+		return taskStops;
+	}
+
+	private static String addStart( String taskStarts, String lastData ) {
+		if ( lastData != "" && lastData.contains("_START_") ) {
+			taskStarts += "(" + lastData + ")";
+		}
+		return taskStarts;
 	}
 	
 }
