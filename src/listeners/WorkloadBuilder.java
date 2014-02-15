@@ -10,7 +10,7 @@ public class WorkloadBuilder {
 
 	public static String build( WorkloadPath path ) {
 		
-		String result = "time, resource data (Actor State [ActiveInput])*, resource workload, temporal data (Actor State [NumberOfEnabledTransitions])*, temporal workload, decision data (Actor State [TransitionDuration])*, decision workload, TaskStarts, TaskStops";
+		String result = "time, resource data (Actor State [ActiveInput])*, resource workload, temporal data (Actor State [NumberOfEnabledTransitions])*, temporal workload, decision data (Actor State [TransitionDuration])*, decision workload, tasks";
 		
 		int currentTime = 0;
 		int currentResourceWorkload = 0;
@@ -19,15 +19,14 @@ public class WorkloadBuilder {
 		String currentTemporalData = "";
 		int currentDecisionWorkload = 0;
 		String currentDecisionData = "";
-		String taskStarts = "";
-		String taskStops = "";
+		String tasks = "";
 		TreeMap<MetricKey, Metric> values = path.getValues();
 		for( Entry<MetricKey, Metric> value : values.entrySet() ) {
 			MetricKey metricKey = value.getKey();
 			Metric metric = value.getValue();
 			
 			if ( currentTime != metricKey.getTime() ) {
-				result += "\n" + currentTime + "," + currentResourceData + "," + currentResourceWorkload + "," + currentTemporalData + "," + currentTemporalWorkload + "," + currentDecisionData + "," + currentDecisionWorkload + "," + taskStarts + "," + taskStops;
+				result += "\n" + currentTime + "," + currentResourceData + "," + currentResourceWorkload + "," + currentTemporalData + "," + currentTemporalWorkload + "," + currentDecisionData + "," + currentDecisionWorkload + "," + tasks;
 
 				currentResourceWorkload = 0;
 				currentResourceData = "";
@@ -35,8 +34,7 @@ public class WorkloadBuilder {
 				currentTemporalData = "";
 				currentDecisionWorkload = 0;
 				currentDecisionData = "";
-				taskStarts = "";
-				taskStops = "";
+				tasks = "";
 			}
 			
 //			System.out.println(metricKey.toString() + "\n\t" + metric.toString());
@@ -53,14 +51,29 @@ public class WorkloadBuilder {
 				currentDecisionWorkload += metric.getValue();
 				currentDecisionData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
 			} else if ( metricKey.getType() == MetricKey.Type.ACTIVE_OUTPUT ) {
-				if ( metric.getData().toString().contains("_START_") ) {
-					taskStarts += "(" + metric.getData() + ")";
+				String taskData = metric.getData().toString();
+				String lastData = "";
+				
+				boolean hasMultiple = false;
+				while ( taskData.contains("__") ) {
+					hasMultiple = true;
+					int divisionIndex = taskData.indexOf( "__" );
+					lastData = taskData.substring( 0, divisionIndex + 2 ).replace( "__", "]" );
+					taskData = "[" + taskData.substring( divisionIndex + 2 );
+					if( lastData.contains("_START_") || lastData.contains("_STOP_") ) {
+						tasks += "(" + lastData + ")";
+					}
 				}
-				if ( metric.getData().toString().contains("_STOP_") ) {
-					taskStops += "(" + metric.getData() + ")";
+				
+				if( !hasMultiple ) {
+					lastData = taskData;
+					if( lastData.contains("_START_") || lastData.contains("_STOP_") ) {
+						tasks += "(" + lastData + ")";
+					}
 				}
 			} 
 		}
+		result += "\n" + currentTime + "," + currentResourceData + "," + currentResourceWorkload + "," + currentTemporalData + "," + currentTemporalWorkload + "," + currentDecisionData + "," + currentDecisionWorkload + "," + tasks;
 		
 		return result;
 	}
