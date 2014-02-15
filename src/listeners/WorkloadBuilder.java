@@ -53,11 +53,24 @@ public class WorkloadBuilder {
 				currentDecisionWorkload += metric.getValue();
 				currentDecisionData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
 			} else if ( metricKey.getType() == MetricKey.Type.ACTIVE_OUTPUT ) {
-				if ( metric.getData().toString().contains("_START_") ) {
-					taskStarts += "(" + metric.getData() + ")";
+				String taskData = metric.getData().toString();
+				String taskDataStart = "";
+				String taskDataStop = "";
+				if ( taskData.contains("__") ) {
+					int divisionIndex = taskData.indexOf("__");
+					taskDataStart = taskData.substring(0, divisionIndex) + "]";
+					taskDataStop = taskData.substring(divisionIndex).replace("__", "[");
+					System.out.println(taskDataStart);
+					System.out.println(taskDataStop);
+				} else {
+					taskDataStart = taskData;
+					taskDataStop = taskData;
 				}
-				if ( metric.getData().toString().contains("_STOP_") ) {
-					taskStops += "(" + metric.getData() + ")";
+				if ( taskDataStart != "" && taskDataStart.contains("_START_") ) {
+					taskStarts += "(" + taskDataStart + ")";
+				}
+				if ( taskDataStop != "" && taskDataStop.contains("_STOP_") ) {
+					taskStops += "(" + taskDataStop + ")";
 				}
 			} 
 		}
