@@ -73,6 +73,7 @@ public class WorkloadBuilder {
 				}
 			} 
 		}
+		result += "\n" + currentTime + "," + currentResourceData + "," + currentResourceWorkload + "," + currentTemporalData + "," + currentTemporalWorkload + "," + currentDecisionData + "," + currentDecisionWorkload + "," + taskStarts + "," + taskStops;
 		
 		return result;
 	}
