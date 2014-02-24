@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CSVPrinter {
-	static CSVPrinter _printer;
+public class Printer {
+	static Printer _printer;
 	
-	public static CSVPrinter getInstance( ) {
+	public static Printer getInstance( ) {
 		// TODO Auto-generated method stub
 		if( _printer == null )
-			_printer = new CSVPrinter( );
+			_printer = new Printer( );
 		return _printer;
 	}
 	
@@ -23,7 +23,21 @@ public class CSVPrinter {
 			
 			writer.close();
 		} catch ( IOException e ) {
-			System.err.println( "-- couldn't print " + filename + ".csv --" );
+			System.err.println( "-- couldn't print " + filename );
+			e.printStackTrace( );
+		}
+	}
+	
+	protected void print( String filename, String string ) {
+		System.out.println("printed " + filename);
+		try {
+			FileWriter writer = new FileWriter( new File( "src/csvFiles/" + filename ) );
+	
+			writer.write( string );
+			
+			writer.close();
+		} catch ( IOException e ) {
+			System.err.println( "-- couldn't print " + filename );
 			e.printStackTrace( );
 		}
 	}

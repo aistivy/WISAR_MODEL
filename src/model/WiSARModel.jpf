@@ -1,8 +1,8 @@
 target=model.WiSARModel
 cg.enumerate_random = true
-classpath=/Users/jaredmoore/git/WISAR_MODEL/bin/
-sourcepath=/Users/jaredmoore/git/WISAR_MODEL/src/
-native_classpath+=/Users/jaredmoore/git/WISAR_MODEL/bin/;
+classpath=/Users/rob/git/WISAR_MODEL/bin/
+sourcepath=/Users/rob/git/WISAR_MODEL/src/
+native_classpath+=/Users/rob/git/WISAR_MODEL/bin/;
 #listeners
 listener+=listeners.WorkloadListener;
 method.exclude=model.*;database.*;java.*;

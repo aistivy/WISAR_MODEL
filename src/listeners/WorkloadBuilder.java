@@ -9,49 +9,65 @@ import simulator.MetricKey;
 public class WorkloadBuilder {
 
 	public static String build( WorkloadPath path ) {
+
+		TreeMap<MetricKey, Metric> values = path.getValues();
 		
-		String result = "time, resource data (Actor State [ActiveInput])*, resource workload, temporal data (Actor State [NumberOfEnabledTransitions])*, temporal workload, decision data (Actor State [TransitionDuration])*, decision workload, TaskStarts, TaskStops";
+		String result = "time, Active Inputs (Actor State [ActiveInput])*, Total Active Inputs, Enabled Transitions (Actor State [NumberOfEnabledTransitions])*, Total Enabled Transitions, Transition Durations (Actor State [TransitionDuration])*, Total Transitions, TaskStarts, TaskStops, Op Tempo";
 		
 		int currentTime = 0;
-		int currentResourceWorkload = 0;
-		String currentResourceData = "";
-		int currentTemporalWorkload = 0;
-		String currentTemporalData = "";
-		int currentDecisionWorkload = 0;
-		String currentDecisionData = "";
+		int totalTime = values.lastEntry().getKey().getTime();
+		double window = Math.floor((totalTime / 10));
+		int lastTime = -1;
+		
+		int totalActiveInputs = 0;
+		String activeInputs = "";
+		int totalEnabledTransitions = 0;
+		String enabledTransitions = "";
+		int totalTransitionDurations = 0;
+		String transitionDurations = "";
 		String taskStarts = "";
 		String taskStops = "";
-		TreeMap<MetricKey, Metric> values = path.getValues();
+		int firedTransitions = 0;
+		
+		int interval = 1;
 		for( Entry<MetricKey, Metric> value : values.entrySet() ) {
 			MetricKey metricKey = value.getKey();
 			Metric metric = value.getValue();
 			
 			if ( currentTime != metricKey.getTime() ) {
-				result += "\n" + currentTime + "," + currentResourceData + "," + currentResourceWorkload + "," + currentTemporalData + "," + currentTemporalWorkload + "," + currentDecisionData + "," + currentDecisionWorkload + "," + taskStarts + "," + taskStops;
+				result += "\n" + currentTime + "," + activeInputs + "," + totalActiveInputs + "," + enabledTransitions + "," + totalEnabledTransitions + "," + transitionDurations + "," + totalTransitionDurations + "," + taskStarts + "," + taskStops;
 
-				currentResourceWorkload = 0;
-				currentResourceData = "";
-				currentTemporalWorkload = 0;
-				currentTemporalData = "";
-				currentDecisionWorkload = 0;
-				currentDecisionData = "";
+				totalActiveInputs = 0;
+				activeInputs = "";
+				totalTransitionDurations = 0;
+				transitionDurations = "";
+				totalEnabledTransitions = 0;
+				enabledTransitions = "";
 				taskStarts = "";
 				taskStops = "";
+				
+				currentTime = metricKey.getTime();
+				
+				if((window * interval) < currentTime && (window * interval) >= lastTime) {
+					double opTempo = firedTransitions / window;
+					result += "," + opTempo; 
+					
+					firedTransitions = 0;
+					
+					interval++;
+				}
 			}
 			
-//			System.out.println(metricKey.toString() + "\n\t" + metric.toString());
-			
-			currentTime = metricKey.getTime();
-			
 			if ( metricKey.getType() == MetricKey.Type.ACTIVE_INPUT ) {
-				currentResourceWorkload += metric.getValue();
-				currentResourceData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
+				totalActiveInputs += metric.getValue();
+				activeInputs += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
 			} else if ( metricKey.getType() == MetricKey.Type.TRANSITION_DURATION ) {
-				currentTemporalWorkload += metric.getValue();
-				currentTemporalData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
+				totalTransitionDurations += metric.getValue();
+				transitionDurations += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
+				firedTransitions++;
 			} else if ( metricKey.getType() == MetricKey.Type.ENABLED_TRANSITION ) {
-				currentDecisionWorkload += metric.getValue();
-				currentDecisionData += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
+				totalEnabledTransitions += metric.getValue();
+				enabledTransitions += "(" + metricKey.getActor() + " " + metricKey.getState() + " " + metric.getData() + ")";
 			} else if ( metricKey.getType() == MetricKey.Type.ACTIVE_OUTPUT ) {
 				if ( metric.getData().toString().contains("_START_") ) {
 					taskStarts += "(" + metric.getData() + ")";
@@ -59,7 +75,11 @@ public class WorkloadBuilder {
 					taskStops += "(" + metric.getData() + ")";
 				}
 			} 
+			
+			lastTime = currentTime;
 		}
+		double opTempo = firedTransitions / window;
+		result += "\n" + currentTime + "," + activeInputs + "," + totalActiveInputs + "," + enabledTransitions + "," + totalEnabledTransitions + "," + transitionDurations + "," + totalTransitionDurations + "," + taskStarts + "," + taskStops + "," + opTempo;
 		
 		return result;
 	}
