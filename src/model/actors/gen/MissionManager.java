@@ -34,13 +34,13 @@ public MissionManager(ComChannelList inputs, ComChannelList outputs) {
 	startState(IDLE);
 }
  public void initializeLEAVE(ComChannelList inputs, ComChannelList outputs, State LEAVE, State DONE) {
-//	// (LEAVE,[],[],0,NEXT,1.0)x(DONE,[],[])
-//	LEAVE.add(new Transition(_internal_vars, inputs, outputs, DONE, Duration.NEXT.getRange(), 0, 1.0) {
-//		@Override
-//		public boolean isEnabled() { 
-//			return true;
-//		}
-//	}); // in comments
+	// (LEAVE,[],[],0,NEXT,1.0)x(DONE,[],[])
+	LEAVE.add(new Transition(_internal_vars, inputs, outputs, DONE, Duration.NEXT.getRange(), 0, 1.0) {
+		@Override
+		public boolean isEnabled() { 
+			return true;
+		}
+	}); // in comments
 	add(LEAVE);
 }
  public void initializeIDLE(ComChannelList inputs, ComChannelList outputs, State IDLE, State WAVE) {

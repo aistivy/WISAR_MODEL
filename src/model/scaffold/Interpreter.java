@@ -772,7 +772,7 @@ public class Interpreter {
 		        if(channelDirection.equals("INPUT")){
 		        	text += "\n\t\tinputs.add(_com_channels.get(Channels." + channelName + ".name()));";
 		        }else{
-		        	text += "\n\t\tinputs.add(_com_channels.get(Channels." + channelName + ".name()));";
+		        	text += "\n\t\toutputs.add(_com_channels.get(Channels." + channelName + ".name()));";
 		        }
 	        }
 	        

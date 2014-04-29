@@ -1,24 +1,30 @@
-5	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=1,  ]) ->
+10	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=1,  ]) ->
 		 (IDLE, [  ], [  ])
-10	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=2,  ]) ->
+20	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=2,  ]) ->
 		 (IDLE, [  ], [  ])
-15	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=3,  ]) ->
+30	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=3,  ]) ->
 		 (IDLE, [  ], [  ])
-20	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=4,  ]) ->
+40	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=4,  ]) ->
 		 (IDLE, [  ], [  ])
-25	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=5,  ]) ->
+50	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=5,  ]) ->
 		 (IDLE, [  ], [  ])
-30	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+60	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
 		 (IDLE, [  ], [  ])
-32	MissionManager(): WAVE X =(WAVE, [ DATA_MM_MM_COMM=MM_START_WAVE_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+65	MissionManager(): WAVE X =(WAVE, [ DATA_MM_MM_COMM=MM_START_WAVE_MM__MM_STOP_PEP_TALK_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
 		 (WAVE, [  ], [  ])
-34	Operator(): WAVE X =(WAVE, [ VIDEO_MM_OP_COMM=MM_WAVE_OP, DATA_OP_OP_COMM=OP_START_WAVE_OP__OP_STOP_FLATTERED_OP,  ], [ name=Operator,  ]) ->
+70	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_STOP_WAVE_MM,  ], [ name=MissionManager, DESIRE=5,  ]) ->
+		 (IDLE, [  ], [  ])
+70	Operator(): WAVE X =(WAVE, [ VIDEO_MM_OP_COMM=MM_SAD_OP, DATA_OP_OP_COMM=OP_START_WAVE_OP__OP_STOP_FLATTERED_OP,  ], [ name=Operator,  ]) ->
 		 (WAVE, [  ], [  ])
-36	MissionManager(): SPEAK X =(SPEAK, [ DATA_MM_MM_COMM=MM_STOP_WAVE_MM__MM_START_SPEAK_MM, VIDEO_OP_MM_COMM=OP_WAVE_MM,  ], [ name=MissionManager, DESIRE=7,  ]) ->
+80	MissionManager(): IDLE X =(IDLE, [ DATA_MM_MM_COMM=MM_START_PEP_TALK_MM__MM_STOP_PEP_TALK_MM, VIDEO_OP_MM_COMM=OP_WAVE_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+		 (IDLE, [  ], [  ])
+85	MissionManager(): WAVE X =(WAVE, [ DATA_MM_MM_COMM=MM_START_WAVE_MM__MM_STOP_PEP_TALK_MM, VIDEO_OP_MM_COMM=OP_WAVE_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+		 (WAVE, [  ], [  ])
+90	MissionManager(): SPEAK X =(SPEAK, [ DATA_MM_MM_COMM=MM_STOP_WAVE_MM__MM_START_SPEAK_MM, VIDEO_OP_MM_COMM=OP_WAVE_MM,  ], [ name=MissionManager, DESIRE=7,  ]) ->
 		 (SPEAK, [  ], [  ])
-38	Operator(): IDLE X =(IDLE, [ DATA_OP_OP_COMM=OP_STOP_WAVE_OP, AUDIO_MM_OP_COMM=MM_HELLO_OP,  ], [ APATHY=1, name=Operator,  ]) ->
+95	Operator(): IDLE X =(IDLE, [ DATA_OP_OP_COMM=OP_STOP_WAVE_OP, AUDIO_MM_OP_COMM=MM_HELLO_OP,  ], [ APATHY=1, name=Operator,  ]) ->
 		 (IDLE, [  ], [  ])
-40	MissionManager(): LEAVE X =(LEAVE, [ DATA_MM_MM_COMM=MM_STOP_SPEAK_MM, AUDIO_OP_MM_COMM=OP_HELLO_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+100	MissionManager(): LEAVE X =(LEAVE, [ DATA_MM_MM_COMM=MM_STOP_SPEAK_MM, AUDIO_OP_MM_COMM=OP_HELLO_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
 		 (LEAVE, [  ], [  ])
-41	MissionManager(): DONE X =(DONE, [ AUDIO_OP_MM_COMM=OP_HELLO_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
+101	MissionManager(): DONE X =(DONE, [ AUDIO_OP_MM_COMM=OP_HELLO_MM,  ], [ name=MissionManager, DESIRE=6,  ]) ->
 		 (DONE, [  ], [  ])
